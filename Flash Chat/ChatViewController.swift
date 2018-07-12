@@ -147,7 +147,7 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
         }
         
     }
-    
+
     //TODO: Create the retrieveMessages method here:
     func retrieveMessages() {
         let messageDB = Database.database().reference().child("Messages")
