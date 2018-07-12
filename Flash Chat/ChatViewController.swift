@@ -8,6 +8,9 @@
 
 import UIKit
 import Firebase
+import ChameleonFramework
+import QuartzCore
+import CoreGraphics
 
 class ChatViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate {
     
@@ -24,6 +27,9 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        messageTableView.separatorStyle = .none
+        
         
         //TODO: Set yourself as the delegate and datasource here:
         messageTableView.delegate = self
@@ -56,6 +62,13 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
         cell.messageBody.text = messageArray[indexPath.row].messageBody
         cell.senderUsername.text = messageArray[indexPath.row].sender
         cell.avatarImageView.image = #imageLiteral(resourceName: "egg")
+        
+        if cell.senderUsername.text == Auth.auth().currentUser?.email! as String? {
+            cell.messageBackground.backgroundColor = UIColor.flatSkyBlue()
+        } else {
+            cell.messageBackground.backgroundColor = UIColor.flatNavyBlue()
+        }
+        
         return cell
     }
     
@@ -93,7 +106,7 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     func textFieldDidBeginEditing(_ textField: UITextField) {
         
-        UIView.animate(withDuration: 0.4){
+        UIView.animate(withDuration: 0.25){
             //keyboard height is not the same on all devices. Find a way to figure this out instead of using a static number
             self.heightConstraint.constant = 348
             self.view.layoutIfNeeded()
@@ -104,7 +117,7 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     //TODO: Declare textFieldDidEndEditing here:
     func textFieldDidEndEditing(_ textField: UITextField) {
-        UIView.animate(withDuration: 0.4){
+        UIView.animate(withDuration: 0.25){
             self.heightConstraint.constant = 50
             self.view.layoutIfNeeded()
         }
